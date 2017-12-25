@@ -1,0 +1,33 @@
+
+public class ConnectionF{
+	public static Customer customer;
+	public static Label l;
+	public static Connection conn()
+	{
+		Connection conn = null;
+		
+		try {
+			Class.forName("oracle.jdbc.OracleDriver");
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:MYORACLE","Customer","customer");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return conn;
+	}
+	public static double tranDouble(double d)
+	{
+		String s = d+"";
+		String ss ="";
+		if(s.indexOf(".")==-1){
+			ss = s;
+		}else{
+			ss = (s+"00").substring(0,s.indexOf(".")+3);
+		}
+		double dd=Double.parseDouble(ss);
+		return dd;
+	}
+}
