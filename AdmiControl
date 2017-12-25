@@ -1,0 +1,9 @@
+
+import com.zhanghao.dto.Admi;
+public class AdmiControl {
+public AdmiControl() {
+	public Admi AdmiLogin(String name,String pw) {
+		return new DataBase().AdmiLogin(name,pw);
+	}
+}
+}
