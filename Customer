@@ -1,0 +1,109 @@
+public class Customer {
+private String name;
+private String ssn;
+private String addr;
+private String pw;
+private int id;
+private double money;
+private String tele;
+//获得和设置参数的方法
+public Customer(String name,String pw,String addr,String tele,int id) {
+	super();
+	this.addr=addr;
+	this.id=id;
+	this.name=name;
+	this.pw=pw;
+	this.tele=tele;		
+}
+public Customer(int id,String addr,String tele) {
+	super();
+	this.addr=addr;
+	this.id=id;
+	this.tele=tele;
+}
+public Customer(String name,String ssn,String addr,String pw,double money,String tele) {
+	super();
+	this.addr=addr;
+	this.name=name;
+	this.pw=pw;
+	this.ssn=ssn;
+	this.money=money;
+	this.tele=tele;
+}
+public Customer(double money) {
+	super();
+	this.money=money;
+}
+public Customer(int id,double money) {
+	super();
+	this.id=id;
+	this.money=money;
+}
+public Customer(int id,String name,double money) {
+	super();
+	this.id=id;
+	this.name=name;
+	this.money=money;
+}
+public Customer(String name) {
+	super();
+	this.name=name;
+}
+public Customer() {
+	super();
+}
+public Customer(String pw,String ssn) {
+	super();
+	this.pw=pw;
+	this.ssn=ssn;
+}
+public Customer(String name,String ssn,String addr,String pw) {
+	super();
+	this.addr=addr;
+	this.name=name;
+	this.pw=pw;
+	this.ssn=ssn;
+}
+public String getName() {
+	return name;
+}
+public void setName(String name) {
+	this.name=name;
+}
+public String getSsn() {
+	return ssn;
+}
+public void setSsn(String ssn) {
+	this.ssn=ssn;
+}
+public String getAddr() {
+	return addr;
+}
+public void setAddr(String addr) {
+	this.addr=addr;
+}
+public String getPw() {
+	return pw;
+}
+public void setPw(String pw) {
+	this.pw=pw;
+}
+public int getId() {
+	return id;
+}
+public void setId(int id) {
+	this.id=id;
+}
+public double getMoney() {
+	return money;
+}
+public void setMoney(double money) {
+	this.money=money;
+}
+public String getTele() {
+	return tele;
+}
+public void setTele(String tele) {
+	this.tele=tele;
+}
+}
