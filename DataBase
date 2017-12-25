@@ -1,0 +1,13 @@
+
+public class DataBase {
+	//连接数据库
+	private static Connection con=null;
+	public static Connection getConnection()throws Exception{
+		if(con==null) {
+			Class.forName("com.mysql.jdbc.Driver");
+			con=DriverManager.getConnection("jdbc,mysql://locallhost:3306/zhanghao","root","123");
+		}
+		return con;
+	}
+	
+}
