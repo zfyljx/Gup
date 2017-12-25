@@ -1,0 +1,53 @@
+
+
+public class Buy {
+int c_id;
+int numb;
+int s_id;
+double sprice;
+//获得和设置参数的方法
+public Buy(int c_id, int s_id,int numb) {
+	super();
+	this.c_id=c_id;
+	this.s_id=s_id;
+	this.numb=numb;
+
+		
+}
+public Buy(int c_id,int s_id) {
+	super();
+	this.c_id=s_id;
+	this.s_id=s_id;
+}
+public Buy() {
+	super();
+}
+
+public int getNum() {
+	return numb;
+}
+
+
+public void setNum(int numb) {
+	this.numb=numb;
+}
+public int getC_id() {
+	return c_id;
+}
+public void setC_id(int c_id) {
+	this.c_id=c_id;
+}
+public int getS_id() {
+	return s_id;
+}
+public void setS_id(int s_id) {
+	this.s_id=s_id;
+}
+public double getSprice() {
+	return sprice;
+}
+public void setSprice(double sprice) {
+	this.sprice=sprice;
+}
+
+}
