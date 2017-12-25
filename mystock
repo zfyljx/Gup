@@ -1,0 +1,25 @@
+public class Mystock {
+	String mystockName;
+	double mystockPrice;
+	int mystockAmount;
+	//获取和设置参数的方法
+	public int getMyStockAmount() {
+		return mystockAmount;
+	}
+	public void setMyStockAmount(int mystockAmount) {
+		this.mystockAmount = mystockAmount;
+	}
+	
+	public String getMyStockName() {
+		return mystockName;
+	}
+	public void setMyStockName(String mystockName) {
+		this.mystockName = mystockName;
+	}
+	public double getMyStockPrice() {
+		return mystockPrice;
+	}
+	public void setMyStockPrice(double mystockPrice) {
+		this.mystockPrice = mystockPrice;
+	}
+}
