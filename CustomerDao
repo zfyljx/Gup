@@ -1,0 +1,173 @@
+
+public class CustomerDao {
+	//登陆验证id,pw
+public static boolean Cuslogin(Customer c)throws Exception{
+	PreparedStatement ps=DataBase.getConnection().prepareStatement("select * from customer where id=?and pw=?");
+	ps.setInt(1, c.getId());
+	ps.setString(2, c.getPw());
+	ResultSet rs=ps.executeQuery();
+	boolean flag=rs.next();
+	rs.close();
+	ps.close();
+	return flag;
+	}
+//增加用户操作
+public static void addCus(Customer c)throws Exception{
+	PreparedStatement ps=DataBase.getConnection().prepareStatement("insert customer(cname,cssn,address,pw,momey,tele)values(?,?,?,?,?)");
+	ps.setString(1, c.getName());
+	ps.setInt(2,c.getId());
+	ps.setString(3,c.getAddr());
+	ps.setString(4, c.getPw());
+	ps.setDouble(5,c.getMoney());
+	ps.setString(6,c.getTele());
+	ps.setString(7,c.getSsn());
+	ps.executeUpdate();
+	ps.close();
+	ps=null;
+	
+}
+//获得用户的证件号和密码
+public static Customer getName(Customer c)throws Exception{
+	PreparedStatement ps=DataBase.getConnection().prepareStatement("select * from customer where id=? and pw=?");
+	ps.setInt(1, c.getId());
+	ps.setString(2, c.getPw());
+	ResultSet rs=ps.executeQuery();
+	Customer customer=null;
+	while(rs.next()) {
+		customer=new Customer(rs.getInt("id"),rs.getString("cname"),rs.getDouble("money"));
+	}
+	rs.close();
+	ps.close();
+	ps=null;
+	return customer;
+}
+//用户的所有信息显示
+public static Vector<Customer>getCust()throws Exception{
+	PreparedStatement ps=DataBase.getConnection().prepareStatement("select * from customer ");
+	ResultSet rs=ps.executeQuery();
+	Vector<Customer> v=new Vector<Customer>();
+	Customer cl=null;
+	while(rs.next()) {
+		cl=new Customer();
+		cl.setId(rs.getInt("id"));
+		cl.setName(rs.getString("cname"));
+		cl.setAddr(rs.getString("adress"));
+		cl.setSsn(rs.getString("cssn"));
+		cl.setPw(rs.getString("pw"));
+		cl.setMoney(rs.getDouble("money"));
+		cl.setTele(rs.getString("tele"));
+		v.addElement(cl);
+	}
+	rs.close();
+	ps.close();
+	ps=null;
+	return v;
+	
+}
+//查询账户余额
+public static Vector<Customer> getBuyMoney(int a)throws Exception{
+	PreparedStatement ps=DataBase.getConnection().prepareStatement("select money from customer where id=?");
+	ps.setInt(1, a);
+	ResultSet rs=ps.executeQuery();
+	Vector<Customer> v=new Vector<Customer>();
+	while(rs.next()) {
+		Customer c=new Customer();
+	c.setMoney(rs.getDouble("money"));
+	v.addElement(c);
+	}
+	rs.close();
+	ps.close();
+	ps=null;
+	return v;
+}
+//查找指定用户手中的账户余额
+//先得到用户对象
+//买卖股票操作识，得到账户余额的方法
+public static Customer getBuy1(int a)throws Exception{
+	PreparedStatement ps=DataBase.getConnection().prepareStatement("select money from customer where id=?");
+	ps.setInt(1,a);
+	ResultSet rs=ps.executeQuery();
+	Customer c=null;
+	while(rs.next()){
+		c=new Customer(rs.getDouble("money"));
+	}
+	rs.close();
+	ps.close();
+	ps=null;
+	return c;
+	
+}
+//账户余额的变化
+public static void getSellMoney(Customer c)throws Exception {
+	PreparedStatement ps=DataBase.getConnection().prepareStatement("update customer set money=money+? where id=?");
+	ps.setDouble(1,c.getMoney());
+	ps.setInt(2, c.getId());
+	ps.executeUpdate();
+	ps.close();
+	ps=null;
+}
+//显示用户信息
+public static Vector<Customer> getCus(int a)throws Exception{
+	PreparedStatement ps=DataBase.getConnection().prepareStatement("select * from customer where id=?");
+ps.setInt(1, a);
+ResultSet rs=ps.executeQuery();
+Vector<Customer> v=new Vector<Customer>();
+while(rs.next()) {
+	Customer c=new Customer();
+	c.setId(rs.getInt("id"));
+	c.setName(rs.getString("cname"));
+	c.setAddr(rs.getString("adress"));
+	c.setSsn(rs.getString("cssn"));
+	c.setTele(rs.getString("tele"));
+	c.setPw(rs.getString("pw"));
+	v.addElement(c);
+	
+}
+rs.close();
+ps.close();
+ps=null;
+return v;
+}
+//修改更新用户信息
+public static void updateCus(Customer c)throws Exception{
+	PreparedStatement ps=DataBase.getConnection().prepareStatement("update customer set address=? , tele=? where id=?");
+	ps.setString(1, c.getAddr());
+	ps.setString(2, c.getTele());
+	ps.setInt(3,c.getId());
+	ps.executeUpdate();
+	ps.close();
+	ps=null;
+}
+//封号
+public static void delCus(int a)throws Exception{
+	PreparedStatement ps=DataBase.getConnection().prepareStatement("delete from customer where id=?");
+	ps.setInt(1, a);
+	ps.executeUpdate();
+	ps.close();
+	ps=null;
+}
+//登陆注册id是否存在
+public static boolean ifSsn(String s)throws Exception{
+	PreparedStatement ps=DataBase.getConnection().prepareStatement("delete * from customer where id=?");
+	ps.setString(1, s);
+	ResultSet rs=ps.executeQuery();
+	boolean flag=rs.next();
+	rs.close();
+	ps.close();
+	ps=null;
+	return flag;
+}
+//更新用户信息
+public static void updateCus1(Customer c)throws Exception{
+	PreparedStatement ps=DataBase.getConnection().prepareStatement("update customer set cname=?,pw=?,adress=?tele=? where id=?");
+	ps.setString(1, c.getName());
+	ps.setString(2, c.getPw());
+	ps.setString(3, c.getAddr());
+	ps.setString(4,c.getTele());
+	ps.setInt(5, c.getId());
+	ps.executeUpdate();
+	ps.close();
+	ps=null;
+}
+}
+
