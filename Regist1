@@ -1,0 +1,112 @@
+
+public class Regist extends JFrame implements ActionListener {
+	//注册界面的参数设置
+	JButton b1,b2,b3;
+	TextField tf1,tf2,tf3,tf4,tf5,tf6;
+	JLabel l0,l1,l2,l3,l4,l5;
+	CheckboxGroup cg;
+	Checkbox cb1,cb2;
+	JComboBox jb1;
+public Regist() {
+	l0=new JLabel("请填写注册信息");
+	l0.setSize(100,30);
+	l0.setLocation(150,20);
+	l2=new JLabel("用户名");
+	l2.setSize(80,20);
+	l2.setLocation(80,110);
+	l3=new JLabel("密码");
+	l3.setSize(50,20);
+	l3.setLocation(80,140);
+	l4=new JLabel("确认密码");
+	l4.setSize(80,20);
+	l4.setLocation(80,170);
+	l5=new JLabel("身份证号码：");
+	l5.setSize(50, 20);
+	l5.setLocation(80, 200);
+	tf2=new TextField();
+	tf2.setSize(160,20);
+	tf2.setLocation(150,110);
+    tf3=new TextField();
+    tf3.setSize(160,20);
+    tf3.setLocation(150,140);
+    tf3.setEchoChar('*');
+    tf4=new TextField();
+    tf4.setSize(160,20);
+    tf4.setLocation(150,170);
+    tf4.setEchoChar('*');
+    tf5=new TextField();
+    tf5.setSize(160,20);
+    tf5.setLocation(150,230);
+    tf6=new TextField();
+    tf6.setSize(160,20);
+    tf6.setLocation(150,290);
+    String[] str1=new String[100];
+    for(int i=0;i<str1.length;i++) {
+    	int j=i+1;
+    	str1[i]=""+j;
+    }
+    jb1=new JComboBox(str1);
+    jb1.setSize(50,20);
+    jb1.setLocation(150,260);
+    System.out.println(Integer.parseInt((String)jb1.getSelectedItem()));
+    b1=new JButton("注册");
+    b1.addActionListener(this);
+    b1.addActionListener(this);
+	b1.setSize(60, 25);
+	b1.setLocation(130, 330);
+	b2=new JButton("重置");
+	b2.setSize(60, 25);
+	b2.setLocation(200, 330);
+	b2.addActionListener(this);
+	b3=new JButton("返回登陆界面");
+	b3.setSize(115, 25);
+	b3.setLocation(140, 360);
+	b3.addActionListener(this);
+	this.setLayout(null);
+	this.setTitle("注册页面");
+	this.setLocation(200,60);
+	this.setSize(400, 500);
+	this.add(l0);
+	this.add(l2);
+	this.add(l3);
+	this.add(l4);
+	this.add(l5);
+	this.add(b1);
+	this.add(b2);
+	this.add(b3);
+	this.add(cb1);
+	this.add(cb2);
+	this.add(jb1);
+	this.add(tf2);
+	this.add(tf3);
+	this.add(tf4);
+	this.add(tf5);
+	this.add(tf6);
+	this.setVisible(true);
+}
+public static void main(String[] args) {
+	new Regist();
+} 
+//注册时的判断
+public void actionPerformed(ActionEvent e) {
+	if(e.getSource()==b1) {
+		try {
+			CustomerControl sc=new CustomerControl();
+			String pw=MD5.getMD5ofStr(tf3.getText().trim());
+			int i=sc.addUser(tf2.getText().trim(),pw,tf5.getText().trim(),Integer.parseInt(tf6.getText().trim()),cg.getSelectedCheckbox().getLabel(),Integer.parseInt((String)jb1.getSelectedItem()));
+			if(i==1){
+				javax.swing.JOptionPane.showMessageDialog(null, "注册成功");
+			}else{
+				javax.swing.JOptionPane.showMessageDialog(null, "注册失败");
+			}
+		}catch(Exception ex) {
+			javax.swing.JOptionPane.showMessageDialog(null,"注册失败");
+		}
+		//注册成功后返回登陆界面
+		if(e.getSource()==b3) {
+			new Login();
+			this.dispose();
+		}
+	}
+}
+}
