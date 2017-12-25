@@ -1,0 +1,73 @@
+
+public class BuyServlet1 extends HttpServlet {
+	public BuyServlet1() {
+		super();
+	}
+	public void destroy() {
+		super.destroy(); // Just puts "destroy" string in log
+		// Put your code here
+	}
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		this.doPost(request, response);
+	}
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		Customer c=new Customer();
+		Customer c1=new Customer();
+		int c_id=Integer.parseInt((String)request.getParameter("c_id"));
+		int numb=Integer.parseInt((String)request.getParameter("numb"));
+		int s_id=Integer.parseInt((String)request.getParameter("s_id"));
+		double sprice=Double.parseDouble((String)request.getParameter("sprice"));
+		String sname=(String)request.getParameter("sname");
+		Buy b=new Buy(c_id,s_id,numb);
+		Buy b1=new Buy(c_id,s_id);		
+		Buy b2=null;
+		//得到指定用户个人信息（账户余额）
+		try {
+			c=CustomerDao.getBuy1(c_id);
+		} catch (Exception e) {
+			request.setAttribute("err", "Sorry,查询用户账户余额操作失败!");
+			request.getRequestDispatcher("/err.jsp").forward(request, response);
+		}
+		//判断：账户余额大于买股票所需要的钱
+		if(sprice*numb<=c.getMoney()){
+			try {
+				//购买股票成功,股票数量发送变化
+				BuyDao.updateBuy(new Buy(c_id,s_id,numb));
+				//购买股票成功,账户余额发送变化
+				CustomerDao.getSellMoney(new Customer(c_id,numb*sprice));
+				//得到购买后的个人账户余额
+				c1=CustomerDao.getBuy1(c_id);
+				//得到购买后所持股票的数量
+				b2=BuyDao.getBuy(b1);
+			} catch (Exception e) {
+				request.setAttribute("err", "Sorry,购买股票操作失败!");
+				request.getRequestDispatcher("/err.jsp").forward(request, response);	
+			}
+			request.setAttribute("num", b2.getNum());
+			request.setAttribute("num1", numb);
+			request.setAttribute("money1", sprice*numb);
+			request.setAttribute("money", c1.getMoney());
+			request.setAttribute("sname", sname);				
+			request.setAttribute("msg", "购买股票操作成功,8秒后自动返回……");
+			request.setAttribute("msg1", "您本次购买股票：");			
+			request.setAttribute("msg2", "购买数量：");
+			request.setAttribute("msg3", "花费金额为：");
+			request.setAttribute("msg4", "现在手中持有该股票数量：");
+			request.setAttribute("msg5", "个人账户总余额为：");
+			request.getRequestDispatcher("/sellSuccess.jsp").forward(request, response);
+		}
+		//判断：账户余额小于买股票需要的钱
+		else if(sprice*numb>c.getMoney()){
+			request.setAttribute("msg", "对不起,您的账户余额不足,无法购买股票,3秒后自动返回……");
+			request.getRequestDispatcher("/fail.jsp").forward(request, response);						
+		}		
+	}
+
+	public void init() throws ServletException {
+		// Put your code here
+	}
+}
+
+
