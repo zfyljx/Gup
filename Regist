@@ -1,0 +1,108 @@
+
+//登陆界面的设置
+public class Login extends JFrame implements ActionListener {
+JButton b1,b2,b3,b4,b5;
+JLabel l0,l1,l2,l3,l4,l5;
+TextField tf1,tf2;
+JComboBox jb;
+public Login() {
+	l0=new JLabel("请填写登陆信息");
+	l0.setSize(100,30);
+	l0.setLocation(150,20);
+	l1=new JLabel("用户名：");
+	l1.setSize(50,20);
+	l1.setLocation(90,80);
+	l2=new JLabel("密码：");
+	l2.setSize(80,20);
+	l2.setLocation(90,110);
+	tf1=new TextField();
+	tf1.setSize(160,20);
+	tf1.setLocation(130,80);
+	tf2=new TextField();
+	tf2.setEchoChar('*');
+	tf2.setSize(160,120);
+	tf2.setLocation(130,110);
+	b1=new JButton("确认");
+	b1.addActionListener(this);
+	b1.setSize(60,25);
+	b1.setLocation(130,150);
+	b2=new JButton("重置");
+	b2.addActionListener(this);
+	b2.setSize(60, 25);
+	b2.setLocation(200,150);
+	b3=new JButton("注册");
+	b3.addActionListener(this);
+	b3.setSize(60,25);
+	b3.setLocation(290,150);
+	String[] strs={"普通用户","管理员"};
+	jb = new JComboBox(strs);
+	jb.setSize(80,20);
+	jb.setLocation(3,80);
+	jb.addActionListener(this);
+	this.setTitle("登陆界面");
+	this.setBackground(Color.gray);
+	this.setLocation(200,80);
+	this.setSize(400, 280);
+	this.setLayout(null);
+	this.setResizable(false);
+	this.add(l0);
+	this.add(l1);
+	this.add(l2);
+	this.add(tf1);
+	this.add(tf2);
+	this.add(b1);
+	this.add(b2);
+	this.add(b3);
+	this.setVisible(true);
+	
+}
+//登陆时判断选择的是用户还是管理员对象
+public void actionPerformed(ActionEvent e) {
+	if(e.getSource()==b1) {
+		if((String)jb.getSelectedItem()=="用户")
+		{
+			CustomerControl cus = new CustomerControl();
+			Customer c =cus.login(tf1.getText().trim(), MD5.getMD5ofStr(tf2.getText().trim()));
+			ConnectionF.customer=c;
+			if(s.getStockerName()!=null)
+			{
+				javax.swing.JOptionPane.showMessageDialog(null, "登录成功");
+				new MainGUI();
+				this.dispose();
+			}else
+			{
+				javax.swing.JOptionPane.showMessageDialog(null, "登陆失败");
+			}
+		}
+		if((String)jb.getSelectedItem()=="管理员")
+		{
+			AdmiControl ad = new AdmiControl();
+			Admi a =ad.AdmiLogin(tf1.getText().trim(), tf2.getText().trim());
+			ConnectionF.admi=a;
+			if(b.getBrokerName()!=null)
+			{
+				javax.swing.JOptionPane.showMessageDialog(null, "登录成功");
+				new MainGUI();
+				this.dispose();
+			}else
+			{
+				javax.swing.JOptionPane.showMessageDialog(null, "登陆失败");
+			}
+		}
+	}
+	//重置就把清空标签文本框的信息
+	if(e.getSource()==b2){
+		tf1.setText("");
+		tf2.setText("");
+	}
+	//若选择的是注册按钮则进入注册界面
+	if(e.getSource()==b3) {
+		new Regist();
+		this.dispose();
+		
+	}
+}
+public static void main(String[] args) {
+	new Login();
+} 
+} 
