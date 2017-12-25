@@ -1,0 +1,105 @@
+
+public class BuyDao {
+	//购买时上市股票名称和所持股票名称的对接和购买数量
+	public static Buy getName(Buy c)throws Exception{
+		PreparedStatement ps=DataBase.getConnection().prepareStatement("select * from buy where s_id=?  C_id=? and num=?");
+		ps.setInt(1, c.getS_id());
+		ps.setInt(2, c.getC_id());
+		ps.setInt(3, c.getNum());
+		ResultSet rs=ps.executeQuery();
+		Buy buy=null;
+		while(rs.next()) {
+			buy=new Buy(rs.getInt("num"),rs.getInt("S_id"),rs.getInt("Num"));
+		}
+		rs.close();
+		ps.close();
+		ps=null;
+		return buy ;
+	}
+	//购买后所持股票的数量
+	public static Vector<Buy> getBuy(Buy c)throws Exception{
+		PreparedStatement ps=DataBase.getConnection().prepareStatement("select money from buy where id=?");
+		ps.setInt(3, c.getNum());
+		ps.setDouble(4,c.getSprice());
+		ResultSet rs=ps.executeQuery();
+		Vector<Buy> v=new Vector<Buy>();
+		while(rs.next()) {
+			Buy c1=new Buy();
+		c1.setSprice(rs.getDouble("sprice"));
+		v.addElement(c1);
+		}
+		rs.close();
+		ps.close();
+		ps=null;
+		return v;
+	}
+	public static Buy getBuy1(int a)throws Exception{
+		PreparedStatement ps=DataBase.getConnection().prepareStatement("select money from buy where id=?");
+		ps.setInt(1,a);
+		ResultSet rs=ps.executeQuery();
+		Buy c=null;
+		while(rs.next()){
+			c=new Buy(rs.getDouble("sprice"));
+		}
+		rs.close();
+		ps.close();
+		ps=null;
+		return c;
+		
+	}
+	//显示购买时上市股票的名称和所持股票的
+	public static Vector<Buy> getBuy(int a)throws Exception{
+		PreparedStatement ps=DataBase.getConnection().prepareStatement("select * from buy where id=?");
+	ps.setInt(1, a);
+	ResultSet rs=ps.executeQuery();
+	Vector<Buy> v=new Vector<Buy>();
+	while(rs.next()) {
+		Buy c=new Buy();
+		c.setC_id(rs.getInt("c_id"));
+		c.setS_id(rs.getInt("s_id"));
+		c.setNum(rs.getInt("num"));
+		c.setSprice(rs.getDouble("sprice"));
+		v.addElement(c);
+	}
+	rs.close();
+	ps.close();
+	ps=null;
+	return v;
+	}
+	public static void updateBuy(Buy c)throws Exception{
+		PreparedStatement ps=DataBase.getConnection().prepareStatement("update customer set c_id=? , s-Id=? where num=?");
+		ps.setInt(1, c.getC_id());
+		ps.setInt(2, c.getS_id());
+		ps.setInt(3,c.getNum());
+		ps.executeUpdate();
+		ps.close();
+		ps=null;
+	}
+	public static void delBuy(int a)throws Exception{
+		PreparedStatement ps=DataBase.getConnection().prepareStatement("delete from customer where id=?");
+		ps.setInt(1, a);
+		ps.executeUpdate();
+		ps.close();
+		ps=null;
+	}
+	public static boolean ifC_id(int  s)throws Exception{
+		PreparedStatement ps=DataBase.getConnection().prepareStatement("delete * from buy where c_id=?");
+		ps.setInt(1, s);
+		ResultSet rs=ps.executeQuery();
+		boolean flag=rs.next();
+		rs.close();
+		ps.close();
+		ps=null;
+		return flag;
+	}
+	public static void updateBuy1(Buy c)throws Exception{
+		PreparedStatement ps=DataBase.getConnection().prepareStatement("update customer set c_id=?,s_id=?,num=? where Sprice=?");
+		ps.setInt(1, c.getC_id());
+		ps.setInt(2, c.getS_id());
+		ps.setInt(3, c.getNum());
+		ps.setDouble(4,c.getSprice());
+		ps.executeUpdate();
+		ps.close();
+		ps=null;
+	}
+}
