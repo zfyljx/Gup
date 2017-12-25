@@ -1,0 +1,29 @@
+
+public class DelServlet extends HttpServlet {
+public DelServlet() {
+	super();
+}
+public void destroy() {
+	super.destroy();
+	//code
+}
+public void doGet(HttpServletRequest request,HttpServletResponse response)throws ServletException,IOException{
+	this.doPost(request,response);
+}
+public void doPost(HttpServletRequest request,HttpServletResponse response)throws ServletException,IOException{
+	int id=Integer.parseInt((String)request.getParameter("a"));
+	System.out.println("看删除用户操作"+id);
+	try {
+		BuyDao.delBuy1(id);
+		CustomerDao.delCus(id);
+	}catch (Exception e) {
+		request.setAttribute("err","Sorry,用户删除操作失败！");
+		request.getRequestDispatcher("/err.jsp").forward(request,response);
+	}
+	request.setAtrribute("msg","用户删除操作成功，3秒后自动返回上级.....");
+	request.getRequestDispatcher("/updateSuc.jsp").foeward(request,response);
+}
+public void init()throws ServletException{
+	//code
+}
+}
